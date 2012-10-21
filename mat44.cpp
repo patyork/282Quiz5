@@ -1,4 +1,5 @@
 #include "mat44.h"
+#include <iostream>
 
 mat44::mat44()
 {
@@ -36,8 +37,133 @@ mat44::mat44(float a1, float a2, float a3, float a4, float b1, float b2, float b
     data[3][3] = d4;
 }
             
+//transpose
 void mat44::transpose()
 {
+    float temp[4][4];
     
+    //transpose into temp
+    for( int i=0; i<4; i++ )
+    {
+        for( int j=0; j<4; j++ )
+        {
+            temp[i][j] = data[j][i];
+        }
+    }
+    
+    //copy from temp into transpose
+    for( int i=0; i<4; i++ )
+    {
+        for( int j=0; j<4; j++ )
+        {
+            data[i][j] = temp[i][j];
+        }
+    }
 }
+
+//print matrix
+void mat44::printAll()
+{
+    using namespace std;
+    
+    //loop over rows
+    for( int i=0; i<4; i++)
+    {
+        //loop over columns
+        for( int j=0; j<4; j++ )
+        {
+            cout << data[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+//Overloaded function call operator
+float& mat44::operator()(int i, int j)
+{
+    return data[i][j];
+}
+
+//Overloaded * operator (mat22 * mat22)
+mat44 operator*( mat44& left, mat44& right)
+{
+
+    mat44 output;
+    
+    for( int i=0; i < 4; i++ )
+    {
+        for( int j=0; j<4; j++ )
+        {
+            for( int k=0; k<4; k++ )
+            {
+                output(i,j) +=  left(i,k)*right(k,j);
+            }
+        }
+    }
+    
+    return output;
+}
+
+vec4 operator*( mat44& left, vec4& right)
+{
+    using namespace std;
+    vec4 output;
+    
+    for( int i=0; i<4; i++ )
+    {
+        for( int j=0; j<4; j++ )
+        {
+            switch(i)
+            {
+                case 0:
+                    output.x = ( output.x + left(i,j)*right.x );
+                    j++;
+                    output.x = ( output.x + left(i,j)*right.y );
+                    j++;
+                    output.x = ( output.x + left(i,j)*right.z );
+                    j++;
+                    output.x = ( output.x + left(i,j)*right.t );
+                    j++;
+                    break;
+                case 1:
+                    output.y =( output.y + left(i,j)*right.x );
+                    j++;
+                    output.y =( output.y + left(i,j)*right.y );
+                    j++;
+                    output.y =( output.y + left(i,j)*right.z );
+                    j++;
+                    output.y =( output.y + left(i,j)*right.t );
+                    j++;
+                    break;
+                case 2:
+                    output.z = ( output.z + left(i,j)*right.x );
+                    j++;
+                    output.z = ( output.z + left(i,j)*right.y );
+                    j++;
+                    output.z = ( output.z + left(i,j)*right.z );
+                    j++;
+                    output.z = ( output.z + left(i,j)*right.t );
+                    j++;
+                    break;
+                case 3:
+                    output.t = ( output.t + left(i,j)*right.x );
+                    j++;
+                    output.t = ( output.t + left(i,j)*right.y );
+                    j++;
+                    output.t = ( output.t + left(i,j)*right.z );
+                    j++;
+                    output.t = ( output.t + left(i,j)*right.t );
+                    j++;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    return output;
+}
+
+
+
 
