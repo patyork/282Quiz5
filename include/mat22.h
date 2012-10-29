@@ -1,0 +1,45 @@
+namespace simphys{
+
+struct vec2
+{
+    float x,y;
+    vec2(float nx, float ny)
+    {
+        x=nx;
+        y=ny; 
+    }
+    vec2()
+    {
+        x=0.0f;
+        y=0.0f; 
+    }
+};
+
+
+class mat22
+{
+private:
+    float data[2][2];
+    
+public:
+    //constructor
+    mat22();
+    
+    //parameterized constructor
+    mat22(float a1, float a2, float b1, float b2);
+    
+    //transpose
+    void transpose();
+    
+    //print matrix
+    void printAll();
+    
+    //Overloaded function call operator
+    float& operator()(int i, int j);
+    
+    //Friend non-member overloads
+    friend simphys::mat22 operator*( simphys::mat22& left, simphys::mat22& right);
+    friend simphys::vec2 operator*( simphys::mat22& left, simphys::vec2& right);
+};
+
+} // end namepace simphys
