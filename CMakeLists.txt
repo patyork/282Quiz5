@@ -19,30 +19,28 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 # we use include_directories to tell cmake where our source folders
 # are.
 include_directories(
-#  ${PROJECT_SOURCE_DIR}/include
-#  ${PROJECT_SOURCE_DIR}/src/main
-#  ${PROJECT_SOURCE_DIR}/src/test
-   ${PROJECT_SOURCE_DIR}/
+  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/src/main
+  ${PROJECT_SOURCE_DIR}/src/test
 )
 
 # These commands add Google test. The add_subdirectory command is a
 # bit like an "include" for building your project. It causes cmake to
 # recursively work on creating build files for the specified
 # subdirectory.
-#add_subdirectory(${PROJECT_SOURCE_DIR}/gtest-1.6.0)
-#include_directories(${PROJECT_SOURCE_DIR}/gtest-1.6.0/include)
+add_subdirectory(${PROJECT_SOURCE_DIR}/gtest-1.6.0)
+include_directories(${PROJECT_SOURCE_DIR}/gtest-1.6.0/include)
 
 # The add_executable command takes an executable name and a list of
 # source files. In this case the source files will be compiled into a
 # binary named Quiz5
 add_executable(Quiz5 
-  test.cpp
-  #mat22.cpp
-  #vec2.h
-  #mat33.cpp
-  #vec3.cpp
-  mat44.cpp
+  ${PROJECT_SOURCE_DIR}/src/test/test_quiz5.cpp
+  ${PROJECT_SOURCE_DIR}/src/main/mat22.cpp
+  ${PROJECT_SOURCE_DIR}/src/main/mat33.cpp
+  ${PROJECT_SOURCE_DIR}/src/main/vec3.cpp
+  ${PROJECT_SOURCE_DIR}/src/main/mat44.cpp
 )
 
 # The target_link_libraries takes a binary name and a library
-#target_link_libraries(Quiz5 gtest_main)
+target_link_libraries(Quiz5 gtest_main)
